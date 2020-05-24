@@ -1,4 +1,3 @@
-const fs = require("fs")
 const express = require("express");
 
 // Tells node that we are creating an "express" server
@@ -12,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // The below points our server to a series of "route" files.
-// require("./routes/apiRoutes")(app);
+require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
 // LISTENER
