@@ -4,30 +4,35 @@ const { v4: uuidv4 } = require('uuid');
 module.exports = function (app) {
     //GET
     app.get("/api/notes", function (req, res) {
-       return res.json(noteDB.getData());
+        const db = new noteDB();
+        res.json(db.getData());
     });
 
     //POST
     app.post("/api/notes", function (req, res) {
-        let notes = JSON.parse(noteDB.getData());
-        req.id = uuidv4();
-        notes.push(req);
+        const db = new noteDB();
+        let notes = db.getData();
+        const newNote = {
+            id: uuidv4(),
+            title: req.body.title,
+            text: req.body.text          
+        };
+        notes.push(newNote);
+        db.writeData(notes);
 
-        noteDB.writeData(JSON.stringify(notes));
-
-        res.json({ ok: true });
+        res.status(201).send();
     });
 
     //DELETE
     app.delete('/api/notes/:id', function (req, res) {
-        let notes = JSON.parse(noteDB.getData());
-        let id = parseInt(req.params.id);
+        const db = new noteDB();
+        let notes = db.getData();
 
-        notes = notes.filter(note => note.id !== id);
+        notes = notes.filter(note => note.id !== req.params.id);
 
-        noteDB.writeData(notes);
+        db.writeData(notes);
 
-        res.json({ ok: true });
+        res.status(200).send();
     });
 
 };

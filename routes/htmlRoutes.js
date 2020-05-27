@@ -1,5 +1,5 @@
 // The path package to get the correct file path for our html
-const path = require("path");
+var path = require("path");
 
 // ROUTING
 module.exports = function(app) {
