@@ -9,7 +9,13 @@ module.exports = function () {
          * @returns JSON array of all notes.
          */
         getNotes : () => {
-            return JSON.parse(fs.readFileSync(pathToDB, "utf8"));
+            try {
+                return JSON.parse(fs.readFileSync(pathToDB, "utf8"));
+            } catch (error) {
+                if (error.code === "ENOENT"){
+                    return [];
+                }
+            }
         },
 
          /**
