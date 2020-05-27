@@ -5,20 +5,20 @@ module.exports = function (app) {
     //GET
     app.get("/api/notes", function (req, res) {
         const db = new noteDB();
-        res.json(db.getData());
+        res.json(db.getNotes());
     });
 
     //POST
     app.post("/api/notes", function (req, res) {
         const db = new noteDB();
-        let notes = db.getData();
+        let notes = db.getNotes();
         const newNote = {
             id: uuidv4(),
             title: req.body.title,
             text: req.body.text          
         };
         notes.push(newNote);
-        db.writeData(notes);
+        db.saveNotes(notes);
 
         res.status(201).send();
     });
@@ -26,11 +26,11 @@ module.exports = function (app) {
     //DELETE
     app.delete('/api/notes/:id', function (req, res) {
         const db = new noteDB();
-        let notes = db.getData();
+        let notes = db.getNotes();
 
         notes = notes.filter(note => note.id !== req.params.id);
 
-        db.writeData(notes);
+        db.saveNotes(notes);
 
         res.status(200).send();
     });
