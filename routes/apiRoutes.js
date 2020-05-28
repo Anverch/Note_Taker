@@ -23,7 +23,7 @@ module.exports = function (app) {
         
         db.saveNotes(notes);
 
-        res.status(201).send();
+        res.status(201).send(newNote);
     });
 
     //DELETE
